@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (generateBtn) {
     console.log('Generate button found, adding event listener');
     generateBtn.addEventListener('click', generateQuestions);
+    
+    // Add ripple effect to buttons
+    document.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', createRipple);
+    });
   } else {
     console.error('Generate button not found!');
   }
@@ -41,7 +46,31 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize theme toggle
   initThemeToggle();
+  
+  // Add animation class to body
+  document.body.classList.add('loaded');
 });
+
+// Create ripple effect on buttons
+function createRipple(event) {
+  const button = event.currentTarget;
+  
+  const circle = document.createElement('span');
+  const diameter = Math.max(button.clientWidth, button.clientHeight);
+  const radius = diameter / 2;
+  
+  circle.style.width = circle.style.height = `${diameter}px`;
+  circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+  circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+  circle.classList.add('ripple');
+  
+  const ripple = button.querySelector('.ripple');
+  if (ripple) {
+    ripple.remove();
+  }
+  
+  button.appendChild(circle);
+}
 
 // Fix for mobile viewport height issues
 function setMobileViewportHeight() {
@@ -106,9 +135,10 @@ function generateQuestions() {
       li.setAttribute("role", "button");
       li.setAttribute("tabindex", "0");
       li.setAttribute("aria-label", `Question ${index + 1}`);
+      li.style.animationDelay = `${0.1 * (index + 1)}s`;
 
       // Attempt to split into Question + Answer
-      const [questionPart, answerPart] = q.split(/IDEAL ANSWER:\s*/);
+      const [questionPart, answerPart] = q.split(/Ideal Answer:\s*/);
       
       const questionText = questionPart.trim();
       const answerText = answerPart ? answerPart.trim() : "";
@@ -149,8 +179,13 @@ function generateQuestions() {
 
     document.getElementById("questionsArea").classList.remove("hidden");
     
-    // Scroll to questions
-    document.getElementById("questionsArea").scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll to questions with animation
+    setTimeout(() => {
+      document.getElementById("questionsArea").scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }, 100);
     
     // Vibrate on mobile devices for feedback
     if (navigator.vibrate) {
@@ -174,7 +209,16 @@ function selectQuestion(questionData, cardElement) {
   
   // Update UI
   document.getElementById("selectedQuestion").textContent = questionData.question;
-  document.getElementById("answerSection").classList.remove("hidden");
+  
+  const answerSection = document.getElementById("answerSection");
+  answerSection.classList.remove("hidden");
+  
+  // Add animation class
+  answerSection.classList.add("animate-in");
+  setTimeout(() => {
+    answerSection.classList.remove("animate-in");
+  }, 500);
+  
   document.getElementById("userAnswer").value = "";
   document.getElementById("feedbackOutput").innerHTML = "";
   
@@ -185,8 +229,13 @@ function selectQuestion(questionData, cardElement) {
   // Focus the answer textarea
   document.getElementById("userAnswer").focus();
   
-  // Scroll to answer section
-  document.getElementById("answerSection").scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Scroll to answer section with animation
+  setTimeout(() => {
+    answerSection.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+  }, 100);
   
   // Vibrate on mobile devices for feedback
   if (navigator.vibrate) {
@@ -228,19 +277,42 @@ function submitAnswer() {
   })
   .then(data => {
     output.innerHTML = data.result;
-    output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
+    // Add animation class
+    output.classList.add("animate-in");
+    setTimeout(() => {
+      output.classList.remove("animate-in");
+    }, 500);
+    
+    // Scroll to feedback with animation
+    setTimeout(() => {
+      output.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }, 100);
     
     // Save report data for the report page
-    localStorage.setItem("report", JSON.stringify({
-      question: selectedQuestionData.question,
-      userAnswer: answer,
-      feedback: data.result,
-      timestamp: new Date().toISOString()
-    }));
+    try {
+      localStorage.setItem("report", JSON.stringify({
+        question: selectedQuestionData.question,
+        userAnswer: answer,
+        feedback: data.result,
+        timestamp: new Date().toISOString()
+      }));
+    } catch (e) {
+      console.error("Failed to save report to localStorage:", e.message);
+      showToast("Failed to save report data");
+    }
     
-    // Show report button
+    // Show report button with animation
     const reportBtn = document.getElementById("reportBtn");
     reportBtn.classList.remove("hidden");
+    reportBtn.classList.add("animate-in");
+    setTimeout(() => {
+      reportBtn.classList.remove("animate-in");
+    }, 500);
+    
     reportBtn.onclick = function() {
       window.open('/report.html', '_blank');
     };
@@ -320,29 +392,11 @@ function showToast(message) {
   
   // Create toast element
   const toast = document.createElement('div');
-  toast.style.cssText = `
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 4px;
-    margin-top: 10px;
-    font-size: 14px;
-    pointer-events: none;
-    transition: opacity 0.3s, transform 0.3s;
-    opacity: 0;
-    transform: translateY(20px);
-  `;
   toast.textContent = message;
   toast.setAttribute('role', 'alert');
   
   // Add to container
   toastContainer.appendChild(toast);
-  
-  // Trigger animation
-  setTimeout(() => {
-    toast.style.opacity = '1';
-    toast.style.transform = 'translateY(0)';
-  }, 10);
   
   // Vibrate on mobile devices for feedback
   if (navigator.vibrate) {
@@ -351,8 +405,7 @@ function showToast(message) {
   
   // Remove after delay
   setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(-20px)';
+    toast.classList.add('toast-hide');
     
     setTimeout(() => {
       toastContainer.removeChild(toast);

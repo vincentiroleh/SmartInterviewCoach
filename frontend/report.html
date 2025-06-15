@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="theme-color" content="#28a745" />
+  <meta name="theme-color" content="#4cc9f0" />
   <title>Interview Session Report</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
   <style>
     :root {
-      --primary-color: #007bff;
-      --success-color: #28a745;
-      --light-bg: #f9f9f9;
-      --border-radius: 8px;
-      --text-color: #333;
-      --text-secondary: #666;
+      --primary-color: #4361ee;
+      --success-color: #4cc9f0;
+      --light-bg: #f8f9fa;
+      --border-radius: 12px;
+      --text-color: #2b2d42;
+      --text-secondary: #6c757d;
+      --box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     }
     
     * {
       box-sizing: border-box;
+      transition: all 0.3s ease;
     }
     
     body { 
@@ -28,81 +30,142 @@
       color: var(--text-color);
       max-width: 800px;
       margin: 0 auto;
+      animation: fadeIn 0.5s ease-out;
     }
     
     .report-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 15px;
+      margin-bottom: 30px;
+      animation: slideDown 0.6s ease-out;
     }
     
     .report-header h1 {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 2rem;
+      background: linear-gradient(45deg, var(--primary-color), var(--success-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     
     .emoji {
-      font-size: 2rem;
+      font-size: 2.5rem;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
     
     .report-section {
-      margin-bottom: 25px;
+      margin-bottom: 30px;
+      animation: slideUp 0.5s ease-out;
+      animation-fill-mode: both;
     }
     
+    .report-section:nth-child(2) { animation-delay: 0.1s; }
+    .report-section:nth-child(3) { animation-delay: 0.2s; }
+    .report-section:nth-child(4) { animation-delay: 0.3s; }
+    
     .report-section h2 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
       color: #444;
+      position: relative;
+      padding-left: 15px;
+    }
+    
+    .report-section h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: linear-gradient(to bottom, var(--primary-color), var(--success-color));
+      border-radius: 4px;
     }
     
     pre { 
       background: var(--light-bg);
-      padding: 15px;
+      padding: 20px;
       border-radius: var(--border-radius);
       white-space: pre-wrap;
       word-break: break-word;
       font-size: 15px;
       border: 1px solid #eee;
       margin: 0;
+      box-shadow: var(--box-shadow);
     }
     
     .btn { 
       display: inline-block;
-      margin-top: 25px;
-      padding: 12px 20px;
-      background: var(--success-color);
+      margin-top: 30px;
+      padding: 14px 24px;
+      background: linear-gradient(45deg, var(--success-color), #4895ef);
       color: white;
       border: none;
       border-radius: var(--border-radius);
       cursor: pointer;
       font-size: 16px;
-      font-weight: 500;
-      transition: background 0.3s ease;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(76, 201, 240, 0.3);
+      position: relative;
+      overflow: hidden;
     }
     
     .btn:hover {
-      background: #218838;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(76, 201, 240, 0.4);
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
     }
     
     .timestamp {
       color: var(--text-secondary);
       font-size: 0.9rem;
       margin-top: 5px;
+      animation: fadeIn 1s ease-out;
     }
     
     .actions {
       display: flex;
-      gap: 10px;
+      gap: 15px;
       flex-wrap: wrap;
+      animation: fadeIn 1s ease-out;
+      animation-delay: 0.5s;
+      animation-fill-mode: both;
     }
     
     .btn-back {
-      background: #6c757d;
+      background: linear-gradient(45deg, #6c757d, #495057);
+      box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
     }
     
     .btn-back:hover {
-      background: #5a6268;
+      box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     @media print {
@@ -116,6 +179,11 @@
       
       pre {
         border: 1px solid #ddd;
+        box-shadow: none;
+      }
+      
+      .emoji {
+        animation: none;
       }
     }
     
@@ -125,8 +193,46 @@
       }
       
       .report-header h1 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
+      
+      .emoji {
+        font-size: 2rem;
+      }
+    }
+    
+    /* Theme toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 30px;
+      padding: 8px 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      cursor: pointer;
+      font-size: 14px;
+      user-select: none;
+      backdrop-filter: blur(10px);
+      animation: slideInRight 0.5s ease-out;
+    }
+    
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .theme-toggle .icon {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+    
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
     }
     
     /* Dark mode */
@@ -142,37 +248,11 @@
     
     :root.dark-theme pre {
       border-color: #444;
-    }
-    
-    /* Theme toggle */
-    .theme-toggle {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.8);
-      border-radius: 20px;
-      padding: 5px 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      cursor: pointer;
-      font-size: 14px;
-      user-select: none;
-      backdrop-filter: blur(4px);
-    }
-    
-    .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.9);
-    }
-    
-    .theme-toggle .icon {
-      margin-right: 5px;
-      font-size: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
     
     :root.dark-theme .theme-toggle {
-      background: rgba(40, 40, 40, 0.8);
+      background: rgba(40, 40, 40, 0.9);
       color: #fff;
     }
     
@@ -193,7 +273,7 @@
       }
       
       :root:not(.light-theme):not(.dark-theme) .theme-toggle {
-        background: rgba(40, 40, 40, 0.8);
+        background: rgba(40, 40, 40, 0.9);
         color: #fff;
       }
     }
@@ -204,6 +284,7 @@
     <span class="icon">☀️</span>
     <span class="text">Theme</span>
   </div>
+  
   <div class="report-header">
     <span class="emoji">🧠</span>
     <h1>Smart Interview Coach Report</h1>
@@ -251,11 +332,37 @@
         // Add timestamp
         const timestamp = report.timestamp ? new Date(report.timestamp) : new Date();
         document.getElementById("timestamp").textContent = `Generated on ${timestamp.toLocaleDateString()} at ${timestamp.toLocaleTimeString()}`;
+        
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+          button.addEventListener('click', createRipple);
+        });
       } catch (err) {
         console.error("Error loading report:", err);
         document.body.innerHTML = '<h1>Error loading report</h1><p>There was a problem loading your report data.</p><button class="btn btn-back" onclick="window.location.href=\'/\'">Back to Coach</button>';
       }
     });
+    
+    // Create ripple effect on buttons
+    function createRipple(event) {
+      const button = event.currentTarget;
+      
+      const circle = document.createElement('span');
+      const diameter = Math.max(button.clientWidth, button.clientHeight);
+      const radius = diameter / 2;
+      
+      circle.style.width = circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+      circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+      circle.classList.add('ripple');
+      
+      const ripple = button.querySelector('.ripple');
+      if (ripple) {
+        ripple.remove();
+      }
+      
+      button.appendChild(circle);
+    }
     
     // Theme toggle functionality
     function initThemeToggle() {
