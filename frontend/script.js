@@ -293,17 +293,12 @@ function submitAnswer() {
     }, 100);
     
     // Save report data for the report page
-    try {
-      localStorage.setItem("report", JSON.stringify({
-        question: selectedQuestionData.question,
-        userAnswer: answer,
-        feedback: data.result,
-        timestamp: new Date().toISOString()
-      }));
-    } catch (e) {
-      console.error("Failed to save report to localStorage:", e.message);
-      showToast("Failed to save report data");
-    }
+    localStorage.setItem("report", JSON.stringify({
+      question: selectedQuestionData.question,
+      userAnswer: answer,
+      feedback: data.result,
+      timestamp: new Date().toISOString()
+    }));
     
     // Show report button with animation
     const reportBtn = document.getElementById("reportBtn");
