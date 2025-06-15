@@ -2,6 +2,10 @@
 
 AI-powered interview preparation tool using AWS Bedrock and Claude AI.
 
+## Demo
+
+[![Smart Interview Coach Demo](https://cdn.loom.com/sessions/thumbnails/6062e7fef6ba4f26a6ba1b5373cc7e6c-with-play.gif)](https://www.loom.com/share/6062e7fef6ba4f26a6ba1b5373cc7e6c?sid=6fa0a029-d99f-474e-96bd-3c0611789de3)
+
 ## Features
 
 - 🎯 Job-specific interview questions
