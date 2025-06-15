@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#28a745" />
+  <title>Interview Session Report</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+  <style>
+    :root {
+      --primary-color: #007bff;
+      --success-color: #28a745;
+      --light-bg: #f9f9f9;
+      --border-radius: 8px;
+      --text-color: #333;
+      --text-secondary: #666;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      padding: 20px;
+      background: #fff;
+      line-height: 1.6;
+      color: var(--text-color);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .report-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .report-header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    
+    .emoji {
+      font-size: 2rem;
+    }
+    
+    .report-section {
+      margin-bottom: 25px;
+    }
+    
+    .report-section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: #444;
+    }
+    
+    pre { 
+      background: var(--light-bg);
+      padding: 15px;
+      border-radius: var(--border-radius);
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 15px;
+      border: 1px solid #eee;
+      margin: 0;
+    }
+    
+    .btn { 
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 20px;
+      background: var(--success-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    
+    .btn:hover {
+      background: #218838;
+    }
+    
+    .timestamp {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+    
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    .btn-back {
+      background: #6c757d;
+    }
+    
+    .btn-back:hover {
+      background: #5a6268;
+    }
+    
+    @media print {
+      .actions {
+        display: none;
+      }
+      
+      body {
+        padding: 0;
+      }
+      
+      pre {
+        border: 1px solid #ddd;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+      
+      .report-header h1 {
+        font-size: 1.5rem;
+      }
+    }
+    
+    /* Dark mode */
+    :root.dark-theme {
+      --light-bg: #1e1e1e;
+      --text-color: #e0e0e0;
+      --text-secondary: #aaaaaa;
+    }
+    
+    :root.dark-theme body {
+      background: #121212;
+    }
+    
+    :root.dark-theme pre {
+      border-color: #444;
+    }
+    
+    /* Theme toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      padding: 5px 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      font-size: 14px;
+      user-select: none;
+      backdrop-filter: blur(4px);
+    }
+    
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+    
+    .theme-toggle .icon {
+      margin-right: 5px;
+      font-size: 16px;
+    }
+    
+    :root.dark-theme .theme-toggle {
+      background: rgba(40, 40, 40, 0.8);
+      color: #fff;
+    }
+    
+    /* Auto dark mode based on system preference */
+    @media (prefers-color-scheme: dark) {
+      :root:not(.light-theme):not(.dark-theme) {
+        --light-bg: #1e1e1e;
+        --text-color: #e0e0e0;
+        --text-secondary: #aaaaaa;
+      }
+      
+      :root:not(.light-theme):not(.dark-theme) body {
+        background: #121212;
+      }
+      
+      :root:not(.light-theme):not(.dark-theme) pre {
+        border-color: #444;
+      }
+      
+      :root:not(.light-theme):not(.dark-theme) .theme-toggle {
+        background: rgba(40, 40, 40, 0.8);
+        color: #fff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle" id="themeToggle">
+    <span class="icon">☀️</span>
+    <span class="text">Theme</span>
+  </div>
+  <div class="report-header">
+    <span class="emoji">🧠</span>
+    <h1>Smart Interview Coach Report</h1>
+  </div>
+  
+  <div class="timestamp" id="timestamp"></div>
+  
+  <div class="report-section">
+    <h2>Question</h2>
+    <p id="q"></p>
+  </div>
+  
+  <div class="report-section">
+    <h2>Your Answer</h2>
+    <pre id="a"></pre>
+  </div>
+  
+  <div class="report-section">
+    <h2>AI Feedback + Rewrite</h2>
+    <pre id="f"></pre>
+  </div>
+  
+  <div class="actions">
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+    <button class="btn btn-back" onclick="window.location.href='/'">Back to Coach</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        // Initialize theme
+        initThemeToggle();
+        
+        // Load report data
+        const report = JSON.parse(localStorage.getItem("report"));
+        if (!report) {
+          document.body.innerHTML = '<h1>No report data found</h1><p>Please go back and generate a report first.</p><button class="btn btn-back" onclick="window.location.href=\'/\'">Back to Coach</button>';
+          return;
+        }
+        
+        document.getElementById("q").textContent = report.question;
+        document.getElementById("a").textContent = report.userAnswer;
+        document.getElementById("f").textContent = report.feedback;
+        
+        // Add timestamp
+        const timestamp = report.timestamp ? new Date(report.timestamp) : new Date();
+        document.getElementById("timestamp").textContent = `Generated on ${timestamp.toLocaleDateString()} at ${timestamp.toLocaleTimeString()}`;
+      } catch (err) {
+        console.error("Error loading report:", err);
+        document.body.innerHTML = '<h1>Error loading report</h1><p>There was a problem loading your report data.</p><button class="btn btn-back" onclick="window.location.href=\'/\'">Back to Coach</button>';
+      }
+    });
+    
+    // Theme toggle functionality
+    function initThemeToggle() {
+      const themeToggle = document.getElementById('themeToggle');
+      const root = document.documentElement;
+      const savedTheme = localStorage.getItem('theme');
+      
+      // Apply saved theme or use system preference
+      if (savedTheme) {
+        root.classList.add(savedTheme + '-theme');
+        updateThemeToggle(savedTheme);
+      }
+      
+      themeToggle.addEventListener('click', () => {
+        // If no theme class or light theme, switch to dark
+        if (!root.classList.contains('dark-theme')) {
+          root.classList.remove('light-theme');
+          root.classList.add('dark-theme');
+          localStorage.setItem('theme', 'dark');
+          updateThemeToggle('dark');
+        } else {
+          // If dark theme, switch to light
+          root.classList.remove('dark-theme');
+          root.classList.add('light-theme');
+          localStorage.setItem('theme', 'light');
+          updateThemeToggle('light');
+        }
+      });
+    }
+    
+    function updateThemeToggle(theme) {
+      const icon = document.querySelector('#themeToggle .icon');
+      const text = document.querySelector('#themeToggle .text');
+      
+      if (theme === 'dark') {
+        icon.textContent = '🌙';
+        text.textContent = 'Light Mode';
+      } else {
+        icon.textContent = '☀️';
+        text.textContent = 'Dark Mode';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="theme-color" content="#007bff" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Smart Interview Coach</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+</head>
+<body>
+  <div class="theme-toggle" id="themeToggle">
+    <span class="icon">☀️</span>
+    <span class="text">Theme</span>
+  </div>
+  <div class="container">
+    <header class="grid-header">
+      <h1>🧠 Smart Interview Coach</h1>
+      <p class="subtitle">Level up your interview game with AI-generated questions & feedback.</p>
+    </header>
+
+    <main class="grid-main">
+      <div class="section">
+        <label for="jobTitle">Job Title</label>
+        <input type="text" id="jobTitle" placeholder="e.g., Frontend Developer" autocomplete="off" />
+      </div>
+
+      <div class="section">
+        <label for="persona">Interviewer Persona</label>
+        <select id="persona">
+          <option value="Recruiter">Recruiter</option>
+          <option value="Hiring Manager">Hiring Manager</option>
+          <option value="Technical Lead">Technical Lead</option>
+          <option value="AI Interview Bot">AI Interview Bot</option>
+        </select>
+      </div>
+
+      <button id="generateBtn" aria-label="Generate interview questions">Generate Interview Questions</button>
+
+      <!-- Spinner -->
+      <div id="loadingSpinner" class="spinner hidden" aria-hidden="true">
+        <div class="dot dot1"></div>
+        <div class="dot dot2"></div>
+        <div class="dot dot3"></div>
+      </div>
+
+      <div id="questionsArea" class="section hidden">
+        <h3>Generated Questions</h3>
+        <p class="hint">Tap a question to select it</p>
+        <ul id="questionList" class="grid-questions" aria-label="List of interview questions"></ul>
+      </div>
+
+      <div id="answerSection" class="section hidden">
+        <h3>Answer & Feedback</h3>
+        <p><strong>Selected Question:</strong> <span id="selectedQuestion"></span></p>
+        <textarea id="userAnswer" rows="5" placeholder="Type your answer here..." aria-label="Your answer"></textarea>
+        <div class="button-group">
+          <button onclick="submitAnswer()" aria-label="Get feedback on your answer">Get Feedback</button>
+        </div>
+        <div id="feedbackOutput" aria-live="polite"></div>
+      </div>
+
+      <button id="reportBtn" class="print-btn hidden" aria-label="View session report">View Session Report</button>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
